@@ -1,0 +1,161 @@
+.cv {
+  --cv-text: #1a2330;
+  --cv-muted: #4a5a6b;
+  --cv-faint: #7a8a9a;
+  --cv-accent: #14805e;
+  --cv-line: #d8dfe6;
+
+  min-height: 100vh;
+  background: #ffffff;
+  color: var(--cv-text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.cv-page {
+  max-width: 210mm;
+  margin-inline: auto;
+  padding: 40px 48px;
+}
+
+.cv h1 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cv .cv-title {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cv-accent);
+  margin-top: 2px;
+}
+
+.cv .cv-contact {
+  margin-top: 8px;
+  color: var(--cv-muted);
+  font-size: 12.5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.cv .cv-contact a {
+  color: var(--cv-muted);
+  text-decoration: none;
+}
+
+.cv h2 {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cv-accent);
+  border-block-end: 1px solid var(--cv-line);
+  padding-block-end: 4px;
+  margin-block: 22px 10px;
+}
+
+.cv .cv-skill-row {
+  display: flex;
+  gap: 8px;
+  margin-block-end: 4px;
+}
+
+.cv .cv-skill-label {
+  font-weight: 600;
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.cv .cv-entry {
+  break-inside: avoid;
+  margin-block-end: 14px;
+}
+
+.cv .cv-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.cv .cv-entry-head h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.cv .cv-entry-head h3 span {
+  font-weight: 400;
+  color: var(--cv-muted);
+}
+
+.cv .cv-period {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11.5px;
+  color: var(--cv-faint);
+  white-space: nowrap;
+}
+
+.cv ul.cv-bullets {
+  margin-block-start: 5px;
+  padding-inline-start: 16px;
+  list-style: none;
+}
+
+.cv ul.cv-bullets li {
+  position: relative;
+  margin-block-end: 3px;
+  color: var(--cv-muted);
+}
+
+.cv ul.cv-bullets li::before {
+  content: "▹";
+  position: absolute;
+  inset-inline-start: -14px;
+  color: var(--cv-accent);
+}
+
+.cv .cv-tech {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  color: var(--cv-faint);
+  margin-block-start: 3px;
+}
+
+.cv p {
+  color: var(--cv-muted);
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  /* the site's paper background otherwise shows below the last page's content */
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  .cv {
+    min-height: 0;
+  }
+
+  .cv-page {
+    padding: 0;
+    max-width: none;
+  }
+
+  .cv h2 {
+    break-after: avoid;
+  }
+
+  .cv-entry {
+    break-inside: avoid;
+  }
+}

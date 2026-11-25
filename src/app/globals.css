@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paper — light editorial surface ramp */
+  --color-paper: #faf8f3;
+  --color-card: #fffefb;
+  --color-ink: #1d1f21;
+  --color-muted: #555a60;
+  --color-soft: #656b72;
+  --color-line: #e6e1d5;
+  --color-line-strong: #cfc8b8;
+
+  /* Single accent + one caution color */
+  --color-accent: #0e7a52;
+  --color-accent-deep: #0a5f40;
+  --color-accent-wash: #e9f3ec;
+  --color-ochre: #8f6400;
+
+  /* Terminal — a self-contained dark object on the light page */
+  --color-term-bg: #16181a;
+  --color-term-panel: #1e2124;
+  --color-term-line: #33373b;
+  --color-term-text: #e8eaec;
+  --color-term-muted: #9aa1a7;
+  --color-term-faint: #828a93;
+  --color-term-green: #51d99c;
+  --color-term-amber: #e8b44f;
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* keep anchored sections clear of the fixed header */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Faint blueprint grid behind the hero; fades out toward the edges */
+.grid-paper {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-line) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-line) 60%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, black, transparent 78%);
+}
+
+.cursor-blink::after {
+  content: "▋";
+  margin-inline-start: 0.15em;
+  color: var(--color-term-green);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.terminal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-term-line) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cursor-blink::after {
+    animation: none;
+  }
+}
