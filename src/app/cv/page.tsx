@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const summary =
-  "Full Stack Developer with 2.5+ years of production experience across Python and Node.js backends and React/Next.js frontends. On a multi-tenant AI-agent platform I led the outbound data-protection layer, built the trainer feedback loop, and built streamed answers end to end. Before that I worked on nightly data pipelines and precomputed metrics for a high-volume ad-tech dashboard. Strong foundation in data structures, operating systems and networking, with a focus on predictable, well-tested systems.";
+  "Full Stack Developer with 2.5+ years of production experience across Python and Node.js backends and React/Next.js frontends. On an AI-agent platform I led a data-protection layer and built feedback and streaming features across the whole stack. Before that I worked on nightly data pipelines for an ad-tech analytics platform. Strong foundation in data structures, operating systems and networking, with a focus on predictable, well-tested systems.";
 
 export default function CvPage() {
   return (
@@ -84,7 +84,7 @@ export default function CvPage() {
               <ul className="cv-bullets">
                 {study.stories.map((story) => (
                   <li key={story.title}>
-                    <strong>{story.title}.</strong> {story.result}
+                    <strong>{story.title}.</strong> {story.did}
                   </li>
                 ))}
               </ul>

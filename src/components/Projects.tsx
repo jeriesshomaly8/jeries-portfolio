@@ -20,41 +20,8 @@ function TechList({ tech }: { tech: string[] }) {
   );
 }
 
-function Flow({ steps }: { steps: CaseStudy["flow"] }) {
-  return (
-    <figure className="mt-6">
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-2.5 font-mono text-xs">
-        {steps.map((step, i) => (
-          <li key={step.label} className="flex items-center gap-2">
-            <span
-              className={
-                step.mine
-                  ? "rounded-md border border-accent/60 bg-accent-wash px-2.5 py-1.5 font-semibold text-accent-deep"
-                  : "rounded-md border border-line-strong bg-paper px-2.5 py-1.5 text-muted"
-              }
-            >
-              {step.label}
-              {step.mine && <span className="sr-only"> (my work)</span>}
-            </span>
-            {i < steps.length - 1 && (
-              <span aria-hidden className="text-soft">
-                →
-              </span>
-            )}
-          </li>
-        ))}
-      </ol>
-      <figcaption className="mt-3 flex items-center gap-2 text-xs text-soft">
-        <span aria-hidden className="inline-block size-3 rounded-sm border border-accent/60 bg-accent-wash" />
-        Highlighted: the parts I built
-      </figcaption>
-    </figure>
-  );
-}
-
 const STORY_PARTS = [
-  { key: "problem", label: "Problem" },
-  { key: "solution", label: "Approach" },
+  { key: "did", label: "What I did" },
   { key: "result", label: "Result" },
 ] as const;
 
@@ -73,13 +40,11 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
         <span className="font-semibold text-accent">Role:</span> {study.role}
       </p>
 
-      <Flow steps={study.flow} />
-
       <div className="mt-8 space-y-6">
         {study.stories.map((story) => (
           <section key={story.title} className="rounded-xl border border-line bg-paper p-5">
             <h4 className="font-display text-lg font-semibold text-ink">{story.title}</h4>
-            <dl className="mt-3 grid gap-4 lg:grid-cols-3">
+            <dl className="mt-3 grid gap-4 sm:grid-cols-[2fr_1fr]">
               {STORY_PARTS.map((part) => (
                 <div key={part.key}>
                   <dt className="font-mono text-xs font-semibold uppercase tracking-wide text-accent">
@@ -156,8 +121,8 @@ export function Projects() {
       <SectionHeading index={4} title="Projects" />
       <Reveal>
         <p className="-mt-6 mb-10 max-w-2xl text-muted">
-          The code for my work projects is private, so here are the problems I solved and how I
-          solved them.
+          My work projects are private, so this covers what I built on them rather than how they
+          work.
         </p>
       </Reveal>
       <div className="space-y-8">

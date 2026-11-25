@@ -4,7 +4,7 @@ export const identity = {
   subtitle:
     "I build AI platforms and the data systems behind them, from streaming backends to the interfaces people use every day.",
   about:
-    "I'm a Full Stack Developer with about 2.5 years of production experience, including my internship. Most of my recent work is on GENIE, an AI-agent platform, where I built its data-protection layer, the trainer feedback loop, and streamed answers end to end. Before that I worked on the backend of a high-volume ad-tech data platform. I care about systems that behave predictably, and I write the tests to prove it.",
+    "I'm a Full Stack Developer with about 2.5 years of production experience, including my internship. Most of my recent work is on GENIE, an AI-agent platform, where I've built security, feedback and streaming features across the whole stack. Before that I worked on the backend of an ad-tech data platform. I care about systems that behave predictably, and I write the tests to prove it.",
   email: "jeries.shomaly.98@hotmail.com",
   linkedin: "https://www.linkedin.com/in/jeries-shomaly-a28b93235",
   // personal account only. The work GitHub account must never be linked here.
@@ -51,13 +51,13 @@ export const skillGroups = [
     id: "ai",
     label: "ai & retrieval",
     cvLabel: "AI & Retrieval",
-    skills: ["RAG", "LlamaIndex", "OpenAI APIs", "Self-hosted LLMs (vLLM)", "Vector search", "AI agents", "LLM guardrails"],
+    skills: ["RAG", "LlamaIndex", "OpenAI APIs", "Vector search", "AI agents", "LLM guardrails"],
   },
   {
     id: "infra",
     label: "infra & tooling",
     cvLabel: "Infra & Tooling",
-    skills: ["Git", "AWS S3", "AWS ECS", "Docker", "PM2", "Scheduled jobs", "Vercel", "pytest"],
+    skills: ["Git", "AWS S3", "Docker", "PM2", "Scheduled jobs", "Vercel", "pytest"],
   },
   {
     id: "games",
@@ -73,13 +73,13 @@ export const experience = [
     company: "Comrax LTD",
     period: "Jan 2025 — Present",
     bullets: [
-      "Led Genie Shield, the outbound data-protection layer of an AI-agent platform: detectors, policy engine, a human approval queue and the admin console, covered by 181 unit tests.",
-      "Built the Trainer Loop across Flask and Next.js/Payload: negative feedback becomes an LLM-diagnosed, editable fix that ships as a Q&A entry or a new prompt version.",
-      "Built streamed answers end to end with a typed Server-Sent Events contract, from the Flask API through the Next.js BFF to the embeddable chat widget.",
-      "Built tenant and agent analytics (quality, engagement, security, cost) and a web-search fallback with per-tenant confidence thresholds.",
-      "Redesigned the metrics precompute in a nightly ad-tech pipeline so each record group is processed exactly once, not re-computed in every batch it touched.",
-      "Fixed a silent out-of-memory failure in a nightly job (~10× lower peak memory) and added a backfill to repair the data it had skipped.",
-      "Built an async export system (background job → progress tracking → S3 download) for large datasets.",
+      "Led the design and build of a data-protection layer for an AI-agent platform, including an approval flow and an admin console, backed by 181 unit tests.",
+      "Built a feedback-review workflow across the Python backend and the Next.js app that turns negative user feedback into approved fixes.",
+      "Built real-time streaming of AI answers from the backend to the web app and an embeddable chat widget.",
+      "Built analytics dashboards for admins, and redesigned the chat app for mobile, Hebrew RTL and dark mode.",
+      "Redesigned a slow step in a nightly data pipeline so related data is processed once instead of repeatedly.",
+      "Fixed a nightly job that was silently running out of memory (~10× lower peak memory) and repaired the data it had missed.",
+      "Built a background export system for large datasets.",
     ],
   },
   {
@@ -102,16 +102,14 @@ export const education = {
     "Data Structures & Algorithms, Operating Systems, Computer Networks, C, Java, Python, OOP, Software Engineering, Software Architecture, Database Systems, Web Development",
 };
 
-export type FlowStep = { label: string; mine?: boolean };
-
+// Public-safe by design: what I built and the outcome, never how the products work internally,
+// who the clients are, or business details.
 export type Story = {
   title: string;
-  problem: string;
-  solution: string;
+  did: string;
   result: string;
 };
 
-// Public-safe by design: no client names, colleague names, prompts, hostnames or real volumes.
 export type CaseStudy = {
   id: string;
   name: string;
@@ -120,7 +118,6 @@ export type CaseStudy = {
   role: string;
   period: string;
   tech: string[];
-  flow: FlowStep[];
   stories: Story[];
   alsoBuilt: string[];
 };
@@ -129,98 +126,61 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "genie",
     name: "GENIE",
-    tagline: "Multi-tenant AI-agent platform",
+    tagline: "AI-agent platform",
     summary:
-      "Organizations get topic-specific AI agents (HR, finance, support and more), each with its own knowledge base, prompt versions and permissions. Employees ask questions in a chat app, an embeddable website widget or WhatsApp. Admins and trainers manage the agents from a console.",
-    role: "Full-stack developer, across the Python backend and the Next.js/Payload app",
+      "A multi-tenant AI assistant platform. I work across both halves of it: the Python backend and the Next.js web app.",
+    role: "Full-stack developer",
     period: "Nov 2025 — Present",
-    tech: ["Python", "Flask", "LlamaIndex", "Milvus", "OpenAI", "vLLM", "Next.js", "Payload CMS", "MongoDB", "SSE"],
-    flow: [
-      { label: "Chat · widget · WhatsApp" },
-      { label: "Next.js BFF + streaming", mine: true },
-      { label: "Agent router" },
-      { label: "Knowledge retrieval" },
-      { label: "Genie Shield", mine: true },
-      { label: "Web-search fallback", mine: true },
-      { label: "LLM (cloud or self-hosted)" },
-      { label: "Analytics · Trainer loop", mine: true },
-    ],
+    tech: ["Python", "Flask", "LlamaIndex", "OpenAI", "Next.js", "Payload CMS", "MongoDB", "SSE"],
     stories: [
       {
-        title: "Genie Shield: nothing sensitive leaves the organization",
-        problem:
-          "When the knowledge base had no answer, the user's question was sent as-is to an external web search, private details included.",
-        solution:
-          "Before anything leaves, the question is rewritten without private details and scanned for sensitive data. Each query is then allowed, blocked, or held for an admin to approve.",
-        result:
-          "Sensitive data stays inside the organization, and users see exactly what was sent out. Covered by 181 unit tests.",
+        title: "Data-protection layer",
+        did: "Led the design and build of a security layer that checks AI requests before anything leaves the system. It includes an approval flow and an admin console.",
+        result: "Backed by 181 unit tests.",
       },
       {
-        title: "Trainer Loop: from 👎 to a shipped fix",
-        problem:
-          "Negative feedback piled up with no path to actually improving the agent that produced the bad answer.",
-        solution:
-          "Each 👎 becomes a review item. An LLM analyzer works out whether the knowledge base was missing an answer or the prompt was at fault, and drafts a fix. The trainer edits it and approves, and approval goes out through the existing Q&A and prompt-version APIs into a learning log. Conversation text reaches the model only in transit and is never stored in analytics.",
-        result:
-          "I designed the plan and built it across both stacks, so one review screen covers the whole path from complaint to deployed fix.",
+        title: "Trainer feedback loop",
+        did: "Built a review workflow that turns negative user feedback into a fix an admin can edit and approve. I wrote the plan and built both the backend and the UI.",
+        result: "Feedback goes from a complaint to a shipped fix on one screen.",
       },
       {
-        title: "Streamed answers, end to end",
-        problem:
-          "Without streaming, nothing appeared until routing, retrieval and generation had all finished.",
-        solution:
-          "A typed Server-Sent Events contract: routing, sources, tokens, suggestions, then done or error, with keepalives and cancellation. I implemented it in the Flask API, the Next.js BFF (including the auth-token exchange) and the embeddable widget.",
-        result:
-          "Sources and tokens appear as they're produced, and the chat app and the widget both consume one documented contract.",
+        title: "Streamed answers",
+        did: "Built real-time streaming of AI answers from the backend through to the web app and the embeddable chat widget.",
+        result: "Answers appear as they're generated, and every client uses one shared contract.",
       },
     ],
     alsoBuilt: [
-      "Tenant and agent analytics (quality, engagement, security, cost) with period-over-period deltas",
-      "Customer-success hub that drafts replies with a cited source for each answer",
-      "Chat app redesign: mobile, Hebrew RTL and English, dark mode, search, favourites",
-      "Follow-up question resolution and server-side conversation memory",
+      "Analytics dashboards for admins",
+      "Chat app redesign: mobile, Hebrew RTL and English, dark mode",
+      "Tooling that helps the support team draft replies",
+      "Conversation memory, so follow-up questions work",
     ],
   },
   {
-    id: "adops",
-    name: "Ad-Ops Analytics Platform",
-    tagline: "Data pipeline and dashboard for a video ad network",
+    id: "adtech",
+    name: "Ad-Tech Data Platform",
+    tagline: "Data pipeline and analytics dashboard",
     summary:
-      "Tracks ads.txt compliance and daily ad delivery across hundreds of thousands of publisher-advertiser combinations. Nightly jobs ingest reports from S3, crawl ads.txt files and precompute metrics for a large, filterable dashboard with bulk edits and exports.",
-    role: "One of two main backend developers",
+      "A data platform with nightly processing jobs and a large analytics dashboard. I was one of its two main backend developers.",
+    role: "Backend developer",
     period: "Jul 2025 — Aug 2026",
-    tech: ["Node.js", "Express", "MySQL", "Sequelize", "AWS S3", "Docker", "AWS ECS", "React"],
-    flow: [
-      { label: "Daily reports · ads.txt crawler · CSV" },
-      { label: "Ingestion jobs", mine: true },
-      { label: "MySQL" },
-      { label: "Aggregation & precompute", mine: true },
-      { label: "REST API" },
-      { label: "Dashboard · async exports", mine: true },
-    ],
+    tech: ["Node.js", "Express", "MySQL", "Sequelize", "AWS S3", "Docker", "React"],
     stories: [
       {
-        title: "Process each group once, not once per batch",
-        problem:
-          "The sort-order metrics were computed batch by batch. Rows that belonged together were often split across batches, so they were fetched and recomputed again and again. That made the nightly run take hours.",
-        solution:
-          "One upfront grouping query. Advertiser metadata is cached once and reused across all six reporting windows, and each group is processed exactly once per window. The results land in a precomputed table that the dashboard sorts and paginates from directly.",
-        result:
-          "The redundant per-batch work is gone, and dashboard sorting reads from a single precomputed table instead of being computed per request.",
+        title: "Faster nightly processing",
+        did: "Redesigned a slow step in the nightly pipeline so related data is processed once, not over and over.",
+        result: "A large amount of redundant work removed from every nightly run.",
       },
       {
-        title: "The nightly job that failed silently",
-        problem:
-          "A nightly job ran out of memory partway through and stopped without an error. Long-tail publishers quietly went missing rows for advertisers added weeks earlier.",
-        solution:
-          "Raw queries that select only the needed columns, unused associations dropped, batches of 500, and a yield to the event loop between batches so garbage collection can run. I also added a backfill job to repair the rows that had been skipped.",
-        result: "About 10× lower peak memory, a sweep that completes, and the missing data restored.",
+        title: "A job that failed silently",
+        did: "Found and fixed a nightly job that was running out of memory without reporting an error, and added a job to repair the data it had missed.",
+        result: "About 10× lower peak memory, and the missing data restored.",
       },
     ],
     alsoBuilt: [
-      "Async export system: background job → progress tracking → S3 download, replacing exports that ran out of memory",
-      "'Not serving' metric that flags combinations that should be earning but aren't",
-      "CSV import that validates first and returns the failed rows instead of aborting",
+      "Background export system for large datasets",
+      "New dashboard metrics",
+      "CSV import that checks every row and reports the ones that fail",
     ],
   },
 ];
